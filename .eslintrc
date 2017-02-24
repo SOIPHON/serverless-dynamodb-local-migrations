@@ -1,0 +1,24 @@
+plugins:
+  - node
+
+extends:
+  - airbnb-base
+
+env:
+  node: true
+  es6: true
+
+rules:
+  strict:
+    - error
+    - global
+  node/no-deprecated-api: error
+  node/no-unsupported-features:
+    - error
+    - version: 4
+  no-console: ["error", { allow: ["info", "warn", "error"] }]
+
+parserOptions:
+  sourceType: script
+  ecmaFeatures:
+    impliedStrict: false
