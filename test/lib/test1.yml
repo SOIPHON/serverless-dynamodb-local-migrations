@@ -1,0 +1,67 @@
+resources:
+  Resources:
+    # TABLE
+    TestTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:service}_${self:provider.stage}_test
+        KeySchema:
+          - AttributeName: id
+            KeyType: HASH
+          - AttributeName: kishu_id
+            KeyType: RANGE
+        AttributeDefinitions:
+          - AttributeName: id
+            AttributeType: S
+          - AttributeName: kishu_id
+            AttributeType: S
+          - AttributeName: search_key
+            AttributeType: S
+          - AttributeName: partition_id
+            AttributeType: S
+          - AttributeName: type_id
+            AttributeType: N
+          - AttributeName: brand_id
+            AttributeType: N
+          - AttributeName: nohinkaishibi
+            AttributeType: S
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        LocalSecondaryIndexes:
+          - IndexName: id-type_id-index
+            KeySchema:
+              - AttributeName: id
+                KeyType: HASH
+              - AttributeName: type_id
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+          - IndexName: id-brand_id-index
+            KeySchema:
+              - AttributeName: id
+                KeyType: HASH
+              - AttributeName: brand_id
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+          - IndexName: id-nohinkaishibi-index
+            KeySchema:
+              - AttributeName: id
+                KeyType: HASH
+              - AttributeName: nohinkaishibi
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+        GlobalSecondaryIndexes:
+          - IndexName: search_key-partition_id-index
+            KeySchema:
+              - AttributeName: search_key
+                KeyType: HASH
+              - AttributeName: partition_id
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL
+            ProvisionedThroughput:
+              ReadCapacityUnits: 1
+              WriteCapacityUnits: 1
